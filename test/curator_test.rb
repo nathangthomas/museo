@@ -24,6 +24,20 @@ class CuratorTest < MiniTest::Test
       year: "1941"
     }
 
+    @photo_3 = {
+      id: "3",
+      name: "Identical Twins, Roselle, New Jersey",
+      artist_id: "3",
+      year: "1967"
+    }
+
+    @photo_4 = {
+      id: "4",
+      name: "Child with Toy Hand Grenade in Central Park",
+      artist_id: "3",
+      year: "1962"
+    }
+
     @artist_1 = {
       id: "1",
       name: "Henri Cartier-Bresson",
@@ -37,6 +51,14 @@ class CuratorTest < MiniTest::Test
       name: "Ansel Adams",
       born: "1902",
       died: "1984",
+      country: "United States"
+    }
+
+    @artist_3 = {
+      id: "3",
+      name: "Diane Arbus",
+      born: "1923",
+      died: "1971",
       country: "United States"
     }
 
@@ -90,4 +112,31 @@ class CuratorTest < MiniTest::Test
 
     assert_equal p2, @curator.find_photograph_by_id("2")
    end
+
+  def test_it_can_find_photogpraphs_by_id
+    p1 = @curator.add_photograph(@photo_1).last
+    p2 = @curator.add_photograph(@photo_2).last
+    p3 = @curator.add_photograph(@photo_3).last
+    p4 =@curator.add_photograph(@photo_4).last
+    a1 = @curator.add_artist(@artist_1).last
+    a2 = @curator.add_artist(@artist_2).last
+    a3 = @curator.add_artist(@artist_3).last
+
+    assert_equal a3, @curator.find_artist_by_id("3")
+    assert_equal [p3, p4], @curator.find_photographs_by_artist(a3)
+  end
+
+  # def test_artists_with_multiple_photopraphs
+  #   p1 = @curator.add_photograph(@photo_1).last
+  #   p2 = @curator.add_photograph(@photo_2).last
+  #   p3 = @curator.add_photograph(@photo_3).last
+  #   p4 =@curator.add_photograph(@photo_4).last
+  #   a1 = @curator.add_artist(@artist_1).last
+  #   a2 = @curator.add_artist(@artist_2).last
+  #   a3 = @curator.add_artist(@artist_3).last
+  #
+  #   assert_equal [p3], @curator.artists_with_multiple_photographs
+  #   # assert_equal 1, @curator.artists_with_multiple_photographs.length
+  #   # assert @curator.artists_with_multiple_photographs.first
+  # end
 end
